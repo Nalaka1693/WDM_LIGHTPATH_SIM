@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        IP_Router r1 = new IP_Router("ROUT-1");
-        IP_Router r2 = new IP_Router("ROUT-2");
+        IP_Router r1 = new IP_Router("ROU-1");
+        IP_Router r2 = new IP_Router("ROU-2");
 
         OXC oxc1 = new OXC("OXC-1");
         OXC oxc2 = new OXC("OXC-2");
@@ -21,8 +21,15 @@ public class Main {
         Link l8 = new Link(r1, oxc1);
         Link l9 = new Link(r2, oxc3);
 
-        oxc1.printNeighbors();
+        r1.printNeighbors();
         oxc3.printNeighbors();
+
+        System.out.println("\nLightpath");
+        LightPath o1 = new LightPath(r1, r2);
+        o1.findLightPath();
+
 
     }
 }
+
+

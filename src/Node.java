@@ -29,4 +29,8 @@ public class Node {
         System.out.println();
     }
 
+    public Link getLinks() {
+        return new Link(new Node("n1"), new Node("n2"));
+    }
+
 }
