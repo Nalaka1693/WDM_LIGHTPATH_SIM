@@ -1,14 +1,39 @@
 public class Link {
     private String name;
+    private Node node1;
+    private Node node2;
+
+    private Fiber [] fiber;
+
 
     public Link(Node node1, Node node2) {
         this.name = node1.getName() + "-" + node2.getName();
-        Fiber fib1 = new Fiber("fib-1", 0);
-        Fiber fib2 = new Fiber("fib-2", 1);
+        this.node1 = node1;
+        this.node2 = node2;
+
+        fiber[0] = new Fiber("fib-1", 0);
+        fiber[1] = new Fiber("fib-2", 1);
 
         node1.addAdjacencyNode(node2);
         node2.addAdjacencyNode(node1);
 
+        node1.addLink(this);
+        node2.addLink(this);
+
         System.out.println(node1.getName() + " and " + node2.getName() + " are connected");
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public Fiber getFib(int direction) {
+        for (Fiber fib : this.fiber) {
+            if (fib.getDirection() == direction) {
+                return fib;
+            }
+        }
+
+        return null;
     }
 }

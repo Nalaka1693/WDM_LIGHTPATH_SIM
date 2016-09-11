@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class LightPath {
     private IP_Router src;
@@ -22,8 +19,9 @@ public class LightPath {
         ArrayList<Node> gray = new ArrayList<>();
         ArrayList<Node> visited = new ArrayList<>();
         Queue<Node> queue = new LinkedList<>();
+        Map<Node, Node> parentRelateMap = new HashMap<>();
 
-        tempPath.add(src);  //ROU-1
+        gray.add(src);
         List<Node> adjacencyNodes = currNode.getConnectedNodes();
 
         if(adjacencyNodes.get(0) == null) {
@@ -33,20 +31,43 @@ public class LightPath {
         }
 
         currNode = adjacencyNodes.get(0);       //OXC-1
-        tempPath.add(currNode);
+        gray.add(currNode);
         queue.add(currNode);                    //OXC-1 to queue
 
         while (!queue.isEmpty()) {
-            for (Node node : queue.remove().getConnectedNodes()) {
-                if (!tempPath.contains(node) && !gray.contains(node)) {
-                    queue.add(node);
-                    gray.add(node);
-                    System.out.println(node.getName());
+            Node node = queue.remove();
 
+            for (Node n : node.getConnectedNodes()) {
+                if (!gray.contains(n)) {
+                    queue.add(n);
+                    gray.add(n);
+                    parentRelateMap.put(n, node);
                 }
 
                 visited.add(node);
+
+                if (dst == node) {
+                    break;
+                }
             }
         }
+
+        Node curr = dst;
+
+        for (Node ignored : parentRelateMap.keySet()) {
+            for (Node n : parentRelateMap.keySet()) {
+                if (n == curr) {
+                    Node val = parentRelateMap.get(n);
+                    tempPath.add(val);
+                    curr = val;
+                }
+            }
+        }
+        Collections.reverse(tempPath);
+        paths.add(tempPath);
+        for (Node n : tempPath) {
+            System.out.print(n.getName() + " ");
+        }
+        System.out.println();
     }
 }

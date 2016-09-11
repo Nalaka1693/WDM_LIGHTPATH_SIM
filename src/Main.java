@@ -28,6 +28,9 @@ public class Main {
         LightPath o1 = new LightPath(r1, r2);
         o1.findLightPath();
 
+        for (Link l : oxc1.getLinks()) {
+            System.out.println(l.getName());
+        }
 
     }
 }

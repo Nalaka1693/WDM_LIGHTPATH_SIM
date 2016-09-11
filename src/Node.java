@@ -4,13 +4,14 @@ import java.util.List;
 public class Node {
     private String name;
     private List<Node> adjacencyNodes = new ArrayList<>();
+    private ArrayList<Link> listOfLinks = new ArrayList<>();
 
     public Node(String name) {
         this.name = name;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void addAdjacencyNode(Node node) {
@@ -29,8 +30,11 @@ public class Node {
         System.out.println();
     }
 
-    public Link getLinks() {
-        return new Link(new Node("n1"), new Node("n2"));
+    public void addLink(Link link) {
+        this.listOfLinks.add(link);
     }
 
+    public ArrayList<Link> getLinks() {
+        return this.listOfLinks;
+    }
 }
