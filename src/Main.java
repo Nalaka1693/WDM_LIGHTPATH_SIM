@@ -3,6 +3,12 @@ public class Main {
         IP_Router r1 = new IP_Router("ROU-1");
         IP_Router r2 = new IP_Router("ROU-2");
 
+        IP_Router r3 = new IP_Router("ROU-3");
+        IP_Router r4 = new IP_Router("ROU-4");
+
+        IP_Router r5 = new IP_Router("ROU-5");
+        IP_Router r6 = new IP_Router("ROU-6");
+
         OXC oxc1 = new OXC("OXC-1");
         OXC oxc2 = new OXC("OXC-2");
         OXC oxc3 = new OXC("OXC-3");
@@ -21,16 +27,23 @@ public class Main {
         Link l8 = new Link(r1, oxc1);
         Link l9 = new Link(r2, oxc3);
 
-        r1.printNeighbors();
-        oxc3.printNeighbors();
+        Link l10 = new Link(r3, oxc2);
+        Link l11 = new Link(r4, oxc5);
+
+        Link l12 = new Link(r5, oxc6);
+        Link l13 = new Link(r6, oxc4);
 
         System.out.println("\nLightpath");
         LightPath o1 = new LightPath(r1, r2);
         o1.findLightPath();
 
-        for (Link l : oxc1.getLinks()) {
-            System.out.println(l.getName());
-        }
+        System.out.println("\nLightpath");
+        LightPath o2 = new LightPath(r3, r4);
+        o2.findLightPath();
+
+        System.out.println("\nLightpath");
+        LightPath o3 = new LightPath(r5, r6);
+        o3.findLightPath();
 
     }
 }

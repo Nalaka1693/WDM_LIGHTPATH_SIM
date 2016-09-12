@@ -11,9 +11,6 @@ public class LightPath {
 
     public void findLightPath() {
         Node currNode = src;
-        Node nextNode = null;
-        int noOfHops = 0;
-        ArrayList noOfHopsList = new ArrayList<>();
         ArrayList<ArrayList<Node>> paths = new ArrayList<>();
         ArrayList<Node> tempPath = new ArrayList<>();
         ArrayList<Node> gray = new ArrayList<>();
@@ -24,7 +21,7 @@ public class LightPath {
         gray.add(src);
         List<Node> adjacencyNodes = currNode.getConnectedNodes();
 
-        if(adjacencyNodes.get(0) == null) {
+        if(adjacencyNodes == null || adjacencyNodes.get(0) == null) {
             System.out.println("Router " + currNode.getName() + " is not connected to the WDM network");
 
             return;
@@ -39,9 +36,13 @@ public class LightPath {
 
             for (Node n : node.getConnectedNodes()) {
                 if (!gray.contains(n)) {
-                    queue.add(n);
-                    gray.add(n);
-                    parentRelateMap.put(n, node);
+                    for (Link link : node.getLinks()) {
+                        if (link.getFib(0).isWavLensFree()) {
+                            queue.add(n);
+                            gray.add(n);
+                            parentRelateMap.put(n, node);
+                        }
+                    }
                 }
 
                 visited.add(node);
@@ -59,6 +60,15 @@ public class LightPath {
                 if (n == curr) {
                     Node val = parentRelateMap.get(n);
                     tempPath.add(val);
+
+                    if (n != dst) {
+                        for (Link link : n.getLinks()) {
+                            if (link.getNode1() == val || link.getNode2() == val) {
+                                link.getFib(0).consumeWavLen();
+                                System.out.println(link.getName() + " consumed wavelengths = " + link.getFib(0).getConsumedWavLens());
+                            }
+                        }
+                    }
                     curr = val;
                 }
             }

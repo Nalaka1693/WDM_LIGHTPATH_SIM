@@ -17,13 +17,25 @@ public class Fiber {
     }
 
     public int getCapacityPerWavLen() {
-        return capacityPerWavLen;
+        return this.capacityPerWavLen;
+    }
+
+    public int getConsumedWavLens() {
+        return this.consumedWavLens;
+    }
+
+    public boolean isWavLensFree() {
+        if (this.noOfWavLens > this.consumedWavLens) {
+            return true;
+        }
+
+        return false;
     }
 
     public boolean consumeWavLen() {
-        if (this.consumedWavLens < this.noOfWavLens) {
-            if (this.wavLens[this.consumedWavLens + 1] == 0) {
-                this.wavLens[this.consumedWavLens + 1] = 1;
+        if (isWavLensFree()) {
+            if (this.wavLens[this.consumedWavLens] == 0) {
+                this.wavLens[this.consumedWavLens] = 1;
                 this.consumedWavLens++;
 
                 return true;

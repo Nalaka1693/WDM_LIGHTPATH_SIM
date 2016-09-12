@@ -2,9 +2,7 @@ public class Link {
     private String name;
     private Node node1;
     private Node node2;
-
-    private Fiber [] fiber;
-
+    private Fiber [] fiber = new Fiber[2];
 
     public Link(Node node1, Node node2) {
         this.name = node1.getName() + "-" + node2.getName();
@@ -35,5 +33,13 @@ public class Link {
         }
 
         return null;
+    }
+
+    public Node getNode1() {
+        return node1;
+    }
+
+    public Node getNode2() {
+        return node2;
     }
 }
