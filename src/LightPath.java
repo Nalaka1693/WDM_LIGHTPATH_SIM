@@ -1,20 +1,25 @@
 import java.util.*;
 
 public class LightPath {
+    public static int noOfLightPathsReq = 0;
+    public static int noOfLightPathsCreated = 0;
+    public static ArrayList<LightPath> lightPaths = new ArrayList<>();
+
     private IP_Router src;
     private IP_Router dst;
 
     public LightPath(IP_Router src, IP_Router dst) {
         this.src = src;
         this.dst = dst;
+
+        lightPaths.add(this);
+        noOfLightPathsReq++;
     }
 
     public void findLightPath() {
         Node currNode = src;
-        ArrayList<ArrayList<Node>> paths = new ArrayList<>();
         ArrayList<Node> tempPath = new ArrayList<>();
         ArrayList<Node> gray = new ArrayList<>();
-        ArrayList<Node> visited = new ArrayList<>();
         Queue<Node> queue = new LinkedList<>();
         Map<Node, Node> parentRelateMap = new HashMap<>();
 
@@ -37,15 +42,15 @@ public class LightPath {
             for (Node n : node.getConnectedNodes()) {
                 if (!gray.contains(n)) {
                     for (Link link : node.getLinks()) {
-                        if (link.getFib(0).isWavLensFree()) {
-                            queue.add(n);
-                            gray.add(n);
-                            parentRelateMap.put(n, node);
+                        if (link.getFib(0).isWavLensFree() && (link.getNode1() == n || link.getNode2() == n)) {
+                            if (!gray.contains(n)) {
+                                queue.add(n);
+                                gray.add(n);
+                                parentRelateMap.put(n, node);
+                            }
                         }
                     }
                 }
-
-                visited.add(node);
 
                 if (dst == node) {
                     break;
@@ -74,10 +79,12 @@ public class LightPath {
             }
         }
         Collections.reverse(tempPath);
-        paths.add(tempPath);
+        noOfLightPathsCreated++;
+        System.out.print("Lightpath - ");
         for (Node n : tempPath) {
             System.out.print(n.getName() + " ");
         }
-        System.out.println();
+        System.out.println("\nLightpaths requested = " + noOfLightPathsReq + " Lightpaths created = " + noOfLightPathsCreated);
+        System.out.println("\n");
     }
 }

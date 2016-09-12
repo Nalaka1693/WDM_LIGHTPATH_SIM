@@ -25,11 +25,8 @@ public class Fiber {
     }
 
     public boolean isWavLensFree() {
-        if (this.noOfWavLens > this.consumedWavLens) {
-            return true;
-        }
+        return this.noOfWavLens > this.consumedWavLens;
 
-        return false;
     }
 
     public boolean consumeWavLen() {
