@@ -7,13 +7,23 @@ public class LightPath {
 
     private IP_Router src;
     private IP_Router dst;
+    private int wavLen;
 
     public LightPath(IP_Router src, IP_Router dst) {
+        System.out.println("Requested to create a lightpath from " + src.getName() + " to " + dst.getName());
         this.src = src;
         this.dst = dst;
 
         lightPaths.add(this);
         noOfLightPathsReq++;
+    }
+
+    public int getWavLen() {
+        return this.wavLen;
+    }
+
+    public void findCustomLightPath() {
+
     }
 
     public void findLightPath() {
@@ -35,9 +45,10 @@ public class LightPath {
         currNode = adjacencyNodes.get(0);       //OXC-1
         gray.add(currNode);
         queue.add(currNode);                    //OXC-1 to queue
+        Node node = null;
 
         while (!queue.isEmpty()) {
-            Node node = queue.remove();
+            node = queue.remove();
 
             for (Node n : node.getConnectedNodes()) {
                 if (!gray.contains(n)) {
@@ -59,6 +70,8 @@ public class LightPath {
         }
 
         Node curr = dst;
+        int tempWavLen = 0;
+        boolean flag1 = true;
 
         for (Node ignored : parentRelateMap.keySet()) {
             for (Node n : parentRelateMap.keySet()) {
@@ -70,7 +83,7 @@ public class LightPath {
                         for (Link link : n.getLinks()) {
                             if (link.getNode1() == val || link.getNode2() == val) {
                                 link.getFib(0).consumeWavLen();
-                                System.out.println(link.getName() + " consumed wavelengths = " + link.getFib(0).getConsumedWavLens());
+                                System.out.println("In '" + link.getName() + "' link " + "consumed wavelengths = " + link.getFib(0).getConsumedWavLens());
                             }
                         }
                     }
@@ -78,13 +91,19 @@ public class LightPath {
                 }
             }
         }
-        Collections.reverse(tempPath);
-        noOfLightPathsCreated++;
-        System.out.print("Lightpath - ");
-        for (Node n : tempPath) {
-            System.out.print(n.getName() + " ");
+
+        if (tempPath.size() == 0) {
+            System.out.println("Cannot create the lightpath");
+            System.out.println("Lightpaths requested = " + noOfLightPathsReq + " Lightpaths created = " + noOfLightPathsCreated);
+        } else {
+            Collections.reverse(tempPath);
+            noOfLightPathsCreated++;
+            System.out.print("Lightpath -> " + src.getName() + " ");
+            for (Node n : tempPath) {
+                System.out.print(n.getName() + " ");
+            }
+            System.out.print(dst.getName() + " ");
+            System.out.println("\nLightpaths requested = " + noOfLightPathsReq + " Lightpaths created = " + noOfLightPathsCreated);
         }
-        System.out.println("\nLightpaths requested = " + noOfLightPathsReq + " Lightpaths created = " + noOfLightPathsCreated);
-        System.out.println("\n");
     }
 }
