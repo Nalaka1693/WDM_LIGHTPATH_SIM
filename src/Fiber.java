@@ -26,7 +26,6 @@ public class Fiber {
 
     public boolean isWavLensFree() {
         return this.noOfWavLens > this.consumedWavLens;
-
     }
 
     public int reqWavLen(int wavLen) {
@@ -37,8 +36,11 @@ public class Fiber {
 
                 return wavLen;
             } else {
-                for (int i = wavLen + 1; i < noOfWavLens; i++) {
-                    if (wavLens[i] == 0) {
+                for (int i = wavLen + 1; i < this.noOfWavLens; i++) {
+                    if (this.wavLens[i] == 0) {
+                        this.wavLens[i] = 1;
+                        this.consumedWavLens++;
+
                         return  i;
                     }
                 }
@@ -46,6 +48,11 @@ public class Fiber {
         }
 
         return -1;
+    }
+
+    public void releaseWavLen(int wavLen) {
+        this.wavLens[wavLen] = 0;
+        this.consumedWavLens--;
     }
 
     public boolean consumeWavLen() {
